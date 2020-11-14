@@ -1,28 +1,29 @@
 #include "stm32g4xx.h"
+#include "stm32g4xx_hal_rcc.h"
 #include <stdio.h>
 #include <string.h>
 #include "main.h"
 
-/* Private typedef -----------------------------------------------------------*/
-
-
-/* Private define ------------------------------------------------------------*/
-/* Private macro -------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
-
-
-/* Private function prototypes -----------------------------------------------*/
-/* Private function prototypes -----------------------------------------------*/
-
 void SystemClock_Config(void);
 
-
-int main(void)
-{
+int main(void) {
   SystemClock_Config();
+
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+
+  LL_GPIO_InitTypeDef gpio;
+  gpio.Pin = LL_GPIO_PIN_8;
+  gpio.Mode = LL_GPIO_MODE_OUTPUT;
+  gpio.Speed = LL_GPIO_SPEED_HIGH;
+  gpio.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  gpio.Pull = 0;
+  gpio.Alternate = 0;
+  LL_GPIO_Init(GPIOB, &gpio);
+
   while (1)
   {
-
+      LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_8);
+      for (int i=0; i<999999; i++);
   }
 }
 

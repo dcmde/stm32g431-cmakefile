@@ -44,6 +44,7 @@ $(HAL)/Src/stm32g4xx_ll_ucpd.c \
 $(HAL)/Src/stm32g4xx_ll_usart.c \
 $(HAL)/Src/stm32g4xx_ll_utils.c \
 src/main.c \
+src/hardware/nucleo.c \
 src/hardware/stm32g4xx_it.c \
 src/hardware/system_stm32g4xx.c 
 

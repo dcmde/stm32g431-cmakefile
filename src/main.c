@@ -1,22 +1,20 @@
 #include "stm32g4xx.h"
-#include <stdio.h>
-#include <string.h>
+#include "stm32g4xx_ll_bus.h"
+#include "stm32g4xx_ll_gpio.h"
 #include "main.h"
-#include "hardware/nucleo.h"
 
 void SystemClock_Config(void);
 
 int main(void) {
-    
+
     SystemClock_Config();
 
-    nucleo_led_init();
-    nucleo_uart_init();
+    LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOC);
+    LL_GPIO_SetPinMode(GPIOC, LL_GPIO_PIN_6, LL_GPIO_MODE_OUTPUT);
 
     while (1) {
-        LL_GPIO_TogglePin(LED_PORT, LED_PIN);
+        LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_6);
         LL_mDelay(250);
-        printf("Hello, world!\r\n");
     }
 }
 
@@ -70,7 +68,7 @@ void SystemClock_Config(void) {
     CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
     DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
     DWT->CYCCNT = 0;
-    while(DWT->CYCCNT < 100);
+    while (DWT->CYCCNT < 100);
 
     /* AHB prescaler 1 */
     LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
